@@ -16,21 +16,11 @@ type TodoListPropsType = {
 }
 
 export const TodoList : FC<TodoListPropsType> = ({
-    title, 
-    tasksForTodoList,
-    remuveTask,
-    filterTasks
-}) => {
-
-    {/*const tasksList: Array<JSX.Element> = []
-    for (let i = 0; i < tasks.length; i++) {
-        const task: JSX.Element = <li>
-            <input type="checkbox" checked={tasks[i].isDone} /> 
-            <span>{tasks[i].title}</span>
-           </li>
-        tasksList.push(task)
-    }*/}
-
+        title, 
+        tasksForTodoList,
+        remuveTask,
+        filterTasks
+    }) => {
     const tasksList: JSX.Element = tasksForTodoList.length
 
     ? <ul>
@@ -39,7 +29,7 @@ export const TodoList : FC<TodoListPropsType> = ({
                 <li>
                     <input type="checkbox" checked={task.isDone} /> 
                     <span>{task.title}</span>
-                    <button onClick={() => {remuveTask(task.id)}}>x</button>
+                    <Button onClickHandler={() => {remuveTask(task.id)}} textButton="x" />
                 </li>
         )
     })}
@@ -52,13 +42,13 @@ export const TodoList : FC<TodoListPropsType> = ({
         <h3>{title}</h3>
         <div>
           <input />
-          <Button filterTasks={filterTasks} filterValue="all" textButton="+" />
+          <Button onClickHandler={() => {}} textButton="+" />
         </div>
         {tasksList}
         <div>
-            <Button filterTasks={filterTasks} filterValue="all" textButton="All" />
-            <Button filterTasks={filterTasks} filterValue="active" textButton="Active" />
-            <Button filterTasks={filterTasks} filterValue="completed" textButton="Completed" />
+            <Button onClickHandler={() => filterTasks("all")} textButton="All" />
+            <Button onClickHandler={() => filterTasks("active")} textButton="Active" />
+            <Button onClickHandler={() => filterTasks("completed")} textButton="Completed" />
         </div>
       </div>
     );

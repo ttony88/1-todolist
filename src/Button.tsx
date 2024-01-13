@@ -3,17 +3,12 @@ import { FilterValuesType } from "./App"
 
 type ButtonPropsType = {
     textButton: string
-    filterValue: FilterValuesType
-    filterTasks: (filter:FilterValuesType) => void
+    onClickHandler: () => void
 }
 
-export const Button : FC<ButtonPropsType> = ({textButton, filterValue, filterTasks}) => {
-
-    const onClickHandler = () => {
-        filterTasks(filterValue)
-    }
+export const Button : FC<ButtonPropsType> = ({textButton, onClickHandler}) => {
 
     return(
-        <button onClick={() => onClickHandler()}>{textButton}</button>
+        <button onClick={onClickHandler}>{textButton}</button>
     )
 } 
