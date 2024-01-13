@@ -26,9 +26,9 @@ function App() {
     const [filter, setFilter] = useState<FilterValuesType>("all")
 
     const tasksForTodoList:Array<TaskType> = filter === "active"
-        ? tasks.filter(task => task.isDone)
+        ? tasks.filter(task => !task.isDone)
         : filter === "completed"
-            ? tasks.filter(task => !task.isDone)
+            ? tasks.filter(task => task.isDone)
             : tasks
 
     const filterTasks = (filter:FilterValuesType) => {
@@ -41,6 +41,7 @@ function App() {
                       remuveTask={remuveTask}
                       tasksForTodoList={tasksForTodoList}
                       filterTasks={filterTasks}
+                      filter={filter}
                       />
         </div>
     );

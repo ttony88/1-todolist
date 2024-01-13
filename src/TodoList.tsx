@@ -13,13 +13,15 @@ type TodoListPropsType = {
     remuveTask: (taskId: number) => void
     tasksForTodoList: Array<TaskType>
     filterTasks: (filter:FilterValuesType) => void
+    filter: FilterValuesType
 }
 
 export const TodoList : FC<TodoListPropsType> = ({
         title, 
         tasksForTodoList,
         remuveTask,
-        filterTasks
+        filterTasks,
+        filter
     }) => {
     const tasksList: JSX.Element = tasksForTodoList.length
 
@@ -34,7 +36,12 @@ export const TodoList : FC<TodoListPropsType> = ({
         )
     })}
     </ul>
-    : <span>задач нет</span>
+    : filter === "active" 
+        ? <span>активных задач нет</span>
+        : filter === "completed"
+            ? <span>завершенных задач нет</span>
+            : <span>задач нет</span>
+      
     
 
     return (
