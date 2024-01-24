@@ -1,14 +1,19 @@
 import React, {FC} from "react"
-import { FilterValuesType } from "./App"
 
 type ButtonPropsType = {
     textButton: string
+    isDisabled?: boolean
     onClickHandler: () => void
+    classes?: string
 }
 
-export const Button : FC<ButtonPropsType> = ({textButton, onClickHandler}) => {
+export const Button : FC<ButtonPropsType> = ({textButton, isDisabled, onClickHandler, classes}) => {
 
     return(
-        <button onClick={onClickHandler}>{textButton}</button>
+        <button disabled={isDisabled} 
+                onClick={onClickHandler}
+                className={classes}>
+            {textButton}
+        </button>
     )
 } 
