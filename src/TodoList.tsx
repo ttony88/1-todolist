@@ -32,7 +32,7 @@ export const TodoList:FC<TodoListPropsType> = ({
 
     const [taskTitle, setTaskTitle] = useState('')
     const [error, setError] = useState(false)
-    const [isColapsetTodoList, setIsColapsetTodoList] = useState(true)
+    const [isHidenList, setIsHidenTodoList] = useState(true)
 
 
 
@@ -89,19 +89,22 @@ export const TodoList:FC<TodoListPropsType> = ({
     }
     const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" ? onClickHandlerAddTask() : null
 
-    const onClickHandlerColapset = () => setIsColapsetTodoList(!isColapsetTodoList)
+    const onClickHandlerHidenList = () => {
+        filterTasks("all")
+        setIsHidenTodoList(!isHidenList)
+    }
 
     const countActiveTaskForHidenList = getFilterTasks("active", tasksForTodoList).length
 
-    
+
 
     return (
       <div className="todoList">
         <h3>{title}</h3>
-        {isColapsetTodoList && <div>{`у вас ${countActiveTaskForHidenList} активные задачи`}</div>}
-        <Button textButton={isColapsetTodoList ? "Развернуть" : "Свернуть"}
-                onClickHandler={onClickHandlerColapset}/>
-        {!isColapsetTodoList && <>
+        {isHidenList && <div>{`у вас ${countActiveTaskForHidenList} активные задачи`}</div>}
+        <Button textButton={isHidenList ? "Развернуть" : "Свернуть"}
+                onClickHandler={onClickHandlerHidenList}/>
+        {!isHidenList && <>
             <div>
             <input type="text" value={taskTitle} 
                     className={error ? "task-input-error" : ""}
