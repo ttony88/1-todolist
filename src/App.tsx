@@ -45,8 +45,7 @@ function App() {
         }
     }
 
-    const filterTasks = (filter:FilterValuesType) => setFilter(filter)
-    
+    const filterTasks = (filter:FilterValuesType) => setFilter(filter)    
 
     const tasksForTodoList:Array<TaskType> = getFilterTasks(filter, tasks)
 
