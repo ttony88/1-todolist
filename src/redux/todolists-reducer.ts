@@ -1,8 +1,6 @@
-import { v1 } from "uuid"
+export type StateTodolistType = TodolistType[]
 
-export type StateTodolistType = Todolist[]
-
-type Todolist = {
+type TodolistType = {
     id: string
     title: string
 }

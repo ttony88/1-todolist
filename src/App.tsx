@@ -1,71 +1,36 @@
-import React, { useState } from 'react';
-import './App.css';
-import { TaskType, TodoList } from './TodoList';
-import { v1 } from 'uuid';
+import React, {ChangeEvent, FC, useState}  from 'react'
+import style from './App.module.css'
+import { Button } from './Button'
+import { addTodolist } from './redux/todolists-reducer'
+import { v1 } from 'uuid'
+import { useSelector } from 'react-redux'
+import { TodoList } from './Todolist'
 
-export type FilterValuesType = "all" | "active" | "completed"
+export const App:FC = (props) => {
 
-function App() {
+    const[titleTask, setTitleTask] = useState('')
 
-    const[tasks, setTasks] = useState<Array<TaskType>>([
-        {id: v1(), title: "HTML&CSS", isDone: false},
-        {id: v1(), title: "JS", isDone: false},
-        {id: v1(), title: "React", isDone: true},
-    ])
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {setTitleTask(e.target.value)}
 
-    const [filter, setFilter] = useState<FilterValuesType>("all")
-
-
-
-    const remuveTask = (taskId: string) => {
-        const nextState: Array<TaskType> = tasks.filter(task => task.id !== taskId)
-        setTasks(nextState)
+    const onClickHandler = () => {
+        addTodolist(titleTask,v1())
+        setTitleTask('')
     }
 
-    const addTask = (title: string) => {
-        setTasks([{id: v1(), title, isDone: false}, ...tasks])
-    }
+    const todolists = useSelector((state: any) => state.todolists)
 
-    const toggleIsDone = (taskId: string) => {
-        const task = tasks.find(task => task.id === taskId)
-        if (task){
-            task.isDone = !task.isDone
-        }
-        setTasks([...tasks])
-    }
+    return(
+        <div>
+            <div>
+                <input value={titleTask} onChange={onChangeHandler} type="text" />
+                <Button textButton="+" onClick={onClickHandler} />
+            </div>
+            <div>
+                {todolists.map((t: { id: React.Key | null | undefined; title: string }) => <TodoList key={t.id} title={t.title}/>)}
+            </div>
 
-    const getFilterTasks = (filter: FilterValuesType, tasks: Array<TaskType>) => {
-        switch (filter) {
-            case "active":
-                return tasks.filter(task => !task.isDone)
-            case "completed":
-                return tasks.filter(task => task.isDone)
-            default:
-                return tasks
-        }
-    }
-
-    const filterTasks = (filter:FilterValuesType) => setFilter(filter)    
-
-    const tasksForTodoList:Array<TaskType> = getFilterTasks(filter, tasks)
-
-    
-
-    return (
-        <div className="App">
-            <TodoList title="What to learn"  
-                      remuveTask={remuveTask}
-                      addTask={addTask}
-                      tasksForTodoList={tasksForTodoList}
-                      filterTasks={filterTasks}
-                      toggleIsDone={toggleIsDone}
-                      filter={filter}
-                      getFilterTasks={getFilterTasks}
-                      />
         </div>
-    );
+    )
 }
-
-export default App;
 
 
