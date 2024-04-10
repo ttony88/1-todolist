@@ -1,13 +1,13 @@
 import React, {FC} from "react"
 
-type ButtonPropsType = {
+type ButtonUsedPropsType = {
     textButton: string
     isDisabled?: boolean
     onClick: () => void
     classes?: string
 }
 
-export const Button : FC<ButtonPropsType> = ({textButton, isDisabled, onClick, classes}) => {
+export const ButtonUsed : FC<ButtonUsedPropsType> = ({textButton, isDisabled, onClick, classes}) => {
 
     return(
         <button disabled={isDisabled} 

@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FC, useState}  from 'react'
 import style from './App.module.css'
-import { Button } from './Button'
+import { ButtonUsed } from './ButtonUsed'
 import { addTodolist } from './redux/todolists-reducer'
 import { v1 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
@@ -25,7 +25,7 @@ export const App:FC = (props) => {
         <div>
             <div>
                 <input value={titleTask} onChange={onChangeHandler} type="text" />
-                <Button textButton="+" onClick={onClickHandler} />
+                <ButtonUsed textButton="+" onClick={onClickHandler} />
             </div>
             <div>
                 {todolists.map((t: { id: React.Key | null | undefined; title: string }) => <TodoList key={t.id} title={t.title}/>)}
