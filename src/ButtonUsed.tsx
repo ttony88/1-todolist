@@ -1,3 +1,4 @@
+import { Button } from "@mui/material"
 import React, {FC} from "react"
 
 type ButtonUsedPropsType = {
@@ -10,10 +11,10 @@ type ButtonUsedPropsType = {
 export const ButtonUsed : FC<ButtonUsedPropsType> = ({textButton, isDisabled, onClick, classes}) => {
 
     return(
-        <button disabled={isDisabled} 
+        <Button variant="contained" disabled={isDisabled} 
                 onClick={onClick}
                 className={classes}>
             {textButton}
-        </button>
+        </Button>
     )
 } 
