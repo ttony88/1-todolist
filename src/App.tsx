@@ -3,17 +3,19 @@ import style from './App.module.css'
 import { Button } from './Button'
 import { addTodolist } from './redux/todolists-reducer'
 import { v1 } from 'uuid'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { TodoList } from './Todolist'
 
 export const App:FC = (props) => {
+
+    const dispatch = useDispatch()
 
     const[titleTask, setTitleTask] = useState('')
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {setTitleTask(e.target.value)}
 
     const onClickHandler = () => {
-        addTodolist(titleTask,v1())
+        dispatch(addTodolist(titleTask,v1()))
         setTitleTask('')
     }
 
