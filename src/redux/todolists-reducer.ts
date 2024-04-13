@@ -1,6 +1,6 @@
 export type StateTodolistType = TodolistType[]
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
 }
