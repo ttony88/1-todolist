@@ -1,0 +1,12 @@
+.app {
+  padding: 30px;
+}
+
+.todolists {
+  display: flex;
+  gap: 20px;
+}
+
+.inputBox {
+  margin-bottom: 20px;
+}
