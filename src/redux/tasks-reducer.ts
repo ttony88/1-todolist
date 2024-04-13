@@ -1,7 +1,7 @@
 import { v1 } from "uuid"
 import { AddTodolistActionType } from "./todolists-reducer"
 
-type TaskType = {
+export type TaskType = {
     id: string
     title: string
     isDone: boolean
@@ -39,7 +39,7 @@ type ChangeStatusTaskActionType = {
 type ChangeStatusTaskActionPayloadType = {
     todolistId: string
     taskId: string
-    isDone: boolean
+    isDone: boolean 
 }
 
 type ActionTaskType = AddTodolistActionType | AddTaskActionType | DeleteTaskActionType | ChangeStatusTaskActionType 
