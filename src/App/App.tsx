@@ -1,10 +1,10 @@
 import React, {ChangeEvent, FC, useState}  from 'react'
 import style from './App.module.css'
-import { ButtonUsed } from './ButtonUsed'
-import { addTodolist } from './redux/todolists-reducer'
+import { ButtonUsed } from '../components/ButtonUsed'
+import { addTodolist } from '../redux/todolists-reducer'
 import { v1 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
-import { TodoList } from './Todolist'
+import { TodoList } from '../layout/Todolist'
 
 export const App:FC = (props) => {
 
@@ -34,5 +34,4 @@ export const App:FC = (props) => {
         </div>
     )
 }
-
 
