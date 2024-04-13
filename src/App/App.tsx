@@ -1,10 +1,10 @@
 import React, {ChangeEvent, FC, useState}  from 'react'
 import style from './App.module.css'
-import { ButtonUsed } from '../components/ButtonUsed'
+import { ButtonUsed } from '../components/button-used/ButtonUsed'
 import { addTodolist } from '../redux/todolists-reducer'
 import { v1 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
-import { TodoList } from '../layout/Todolist'
+import { TodoList } from '../layout/todolist/Todolist'
 
 export const App:FC = (props) => {
 
