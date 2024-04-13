@@ -1,10 +1,11 @@
 import React, {ChangeEvent, FC, useState}  from 'react'
 import style from './App.module.css'
 import { ButtonUsed } from '../components/button-used/ButtonUsed'
-import { addTodolist } from '../redux/todolists-reducer'
+import { TodolistType, addTodolist } from '../redux/todolists-reducer'
 import { v1 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
-import { TodoList } from '../layout/todolist/Todolist'
+import { Todolist } from '../layout/todolist/Todolist'
+import { InputUsed } from '../components/input-used/InputUsed'
 
 export const App:FC = (props) => {
 
@@ -12,7 +13,7 @@ export const App:FC = (props) => {
 
     const[titleTask, setTitleTask] = useState('')
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {setTitleTask(e.target.value)}
+    const onChangeHandler = (value: string) => {setTitleTask(value)}
 
     const onClickHandler = () => {
         dispatch(addTodolist(titleTask,v1()))
@@ -22,13 +23,15 @@ export const App:FC = (props) => {
     const todolists = useSelector((state: any) => state.todolists)
 
     return(
-        <div>
-            <div>
-                <input value={titleTask} onChange={onChangeHandler} type="text" />
+        <div className={style.app}>
+            <div className={style.inputBox}>
+                <InputUsed value={titleTask} onChange={onChangeHandler} />
                 <ButtonUsed textButton="+" onClick={onClickHandler} />
             </div>
-            <div>
-                {todolists.map((t: { id: React.Key | null | undefined; title: string }) => <TodoList key={t.id} title={t.title}/>)}
+            <div className={style.todolists}>
+                {todolists.map((t: TodolistType) => <div key={t.id}><Todolist  
+                                                              title={t.title}
+                                                              todolistId={t.id}/></div>)}
             </div>
 
         </div>
