@@ -5,15 +5,14 @@ type ButtonUsedPropsType = {
     textButton: string
     isDisabled?: boolean
     onClick: () => void
-    classes?: string
 }
 
-export const ButtonUsed : FC<ButtonUsedPropsType> = ({textButton, isDisabled, onClick, classes}) => {
+export const ButtonUsed : FC<ButtonUsedPropsType> = ({textButton, isDisabled, onClick}) => {
 
     return(
-        <Button variant="contained" disabled={isDisabled} 
-                onClick={onClick}
-                className={classes}>
+        <Button variant="contained" 
+                disabled={isDisabled} 
+                onClick={onClick}>
             {textButton}
         </Button>
     )

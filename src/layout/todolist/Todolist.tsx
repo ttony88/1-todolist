@@ -23,6 +23,7 @@ export const Todolist:FC<TodoListProps> = (props) => {
 
     const onClickHandlerAddButton = () => {
         dispatch(addTask(titleTask, props.todolistId))
+        setTitleTask('')
     }
 
     const onClickHandlerDeleteButton = () => {
@@ -37,7 +38,7 @@ export const Todolist:FC<TodoListProps> = (props) => {
         <div className={style.todolist}>
             <div className={style.title}>
                 {props.title}
-                <IconButton aria-label="delete" onClick={onClickHandlerDeleteButton}>
+                <IconButton onClick={onClickHandlerDeleteButton}>
                     <Delete />
                 </IconButton>
             </div>
