@@ -7,7 +7,7 @@ import { TaskType, addTask } from '../../redux/tasks-reducer'
 import { Task } from '../task/Task'
 import { IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
-import { deleteTodolist } from '../../redux/todolists-reducer'
+import { FilterType, changeFilter, deleteTodolist } from '../../redux/todolists-reducer'
 
 type TodoListProps = {
     title: string
@@ -34,6 +34,10 @@ export const Todolist:FC<TodoListProps> = (props) => {
         setTitleTask(value)
     }
 
+    const onClickHandlerButtonGroup = (filter: FilterType) => {
+        dispatch(changeFilter(filter, props.todolistId))
+    }
+
     return(
         <div className={style.todolist}>
             <div className={style.title}>
@@ -53,6 +57,9 @@ export const Todolist:FC<TodoListProps> = (props) => {
                                                   isDone={t.isDone}
                                                   todolistId={props.todolistId} /></div>)}
             </div>
+            <ButtonUsed textButton="All" onClick={() => onClickHandlerButtonGroup('all')} />
+            <ButtonUsed textButton="Active" onClick={() => onClickHandlerButtonGroup('active')} />
+            <ButtonUsed textButton="Complited" onClick={() => onClickHandlerButtonGroup('complited')} />
         </div>
     )
 }

@@ -7,8 +7,8 @@ let startState: StateTodolistType
 
 beforeEach(() => {
     startState = [
-        {id: todolistId1, title: "tools"},
-        {id: todolistId2, title: "skills"},
+        {id: todolistId1, title: "tools", filter: 'all'},
+        {id: todolistId2, title: "skills", filter: 'all'},
     ]
 })
 
