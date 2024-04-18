@@ -18,8 +18,6 @@ beforeEach(() => {
 test("the task must be added correctly", () => {
     const endState = tasksReducer(startState, addTask("SCSS", "todolistId2"))
     expect(endState["todolistId2"].length).toBe(3)
-    
-    //expect(endState["todolistId1"][0].title).toBe("SCSS")
 })
 
 test("correct deletion of the task", () => {
@@ -28,8 +26,8 @@ test("correct deletion of the task", () => {
     expect(endState["todolistId1"].length).toBe(1)
 })
 
-// test("correct status change", () => {
-//     const action = changeStatusTask("todolistId1", "1", false)
-//     const endState = tasksReducer(startState, action)
-//     expect(endState["todolistId1"][1].isDone).toBe(false)
-// })
+test("correct status change", () => {
+    const action = changeStatusTask("todolistId1", "1", false)
+    const endState = tasksReducer(startState, action)
+    expect(endState["todolistId1"][1].isDone).toBe(false)
+})
