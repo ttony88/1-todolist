@@ -1,4 +1,4 @@
-import React, {FC, useState}  from 'react'
+import React, {ChangeEvent, FC, useState}  from 'react'
 import style from './Task.module.css'
 import { useDispatch } from 'react-redux'
 import { changeStatusTask, deleteTask } from '../../redux/tasks-reducer'
@@ -15,7 +15,7 @@ type TaskProps = {
 export const Task:FC<TaskProps> = (props) => {
     const dispatch = useDispatch()
 
-    const onChangeHandlerCheckBox = (e:any) => {
+    const onChangeHandlerCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(changeStatusTask(props.todolistId, props.taskId, props.isDone))
     }
 
