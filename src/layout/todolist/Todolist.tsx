@@ -20,7 +20,7 @@ export const Todolist:FC<TodoListProps> = (props) => {
     const dispatch = useDispatch()
 
     const tasks = useSelector((state: any) => state.tasks[props.todolistId])
-
+console.log(tasks)
     const onClickHandlerAddButton = () => {
         dispatch(addTask(titleTask, props.todolistId))
         setTitleTask('')
