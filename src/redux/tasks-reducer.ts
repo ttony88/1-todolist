@@ -46,7 +46,8 @@ type ActionTaskType = AddTodolistActionType | AddTaskActionType | DeleteTaskActi
 
 const initialState:TasksStateType = {}
 
-export const tasksReducer = (state: TasksStateType=initialState, action: ActionTaskType) => {
+export const tasksReducer = (state: TasksStateType=initialState, action: ActionTaskType):TasksStateType => {
+    
     switch(action.type) {
         case "ADD-TODOLIST":
             return {
@@ -66,16 +67,17 @@ export const tasksReducer = (state: TasksStateType=initialState, action: ActionT
             }
         case "CHANGE-STATUS-TASK":
             return {
+
                 ...state,
-                [action.payload.todolistId]: [state[action.payload.todolistId].map(t => {
+                [action.payload.todolistId]: state[action.payload.todolistId].map(t => {
                     if(t.id === action.payload.taskId) {
                         return {
                             ...t,
-                            isDone: action.payload.isDone
+                            isDone: !action.payload.isDone
                         }
                     }
                     return t
-                })]
+                })
             }
         default:
             return state    
