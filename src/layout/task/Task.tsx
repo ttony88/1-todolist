@@ -1,4 +1,4 @@
-import React, {FC}  from 'react'
+import React, {FC, useState}  from 'react'
 import style from './Task.module.css'
 import { useDispatch } from 'react-redux'
 import { changeStatusTask, deleteTask } from '../../redux/tasks-reducer'
@@ -13,20 +13,21 @@ type TaskProps = {
     todolistId: string
 }
 export const Task:FC<TaskProps> = (props) => {
-
     const dispatch = useDispatch()
 
-    const onChangeHandlerCheckBox = () => {
+    const onChangeHandlerCheckBox = (e:any) => {
         dispatch(changeStatusTask(props.todolistId, props.taskId, props.isDone))
     }
 
     const onClickHandlerButtonDeleteTask = () => {
         dispatch(deleteTask(props.todolistId, props.taskId))
     }
+console.log(props.isDone)
 
     return(
         <div className={style.task}> 
             <Checkbox checked={props.isDone}
+                        defaultChecked={false}
                       onChange={onChangeHandlerCheckBox}
             />
             <div className={style.title}>
