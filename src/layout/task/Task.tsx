@@ -5,6 +5,7 @@ import { changeStatusTask, deleteTask } from '../../redux/tasks-reducer'
 import Checkbox from '@mui/material/Checkbox/Checkbox'
 import IconButton from '@mui/material/IconButton/IconButton'
 import { Delete } from '@mui/icons-material'
+import { useAppDispatch } from '../../redux/store'
 
 type TaskProps = {
     taskId: string
@@ -13,7 +14,7 @@ type TaskProps = {
     todolistId: string
 }
 export const Task:FC<TaskProps> = (props) => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const onChangeHandlerCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(changeStatusTask(props.todolistId, props.taskId, props.isDone))
@@ -22,7 +23,6 @@ export const Task:FC<TaskProps> = (props) => {
     const onClickHandlerButtonDeleteTask = () => {
         dispatch(deleteTask(props.todolistId, props.taskId))
     }
-console.log(props.isDone)
 
     return(
         <div className={style.task}> 

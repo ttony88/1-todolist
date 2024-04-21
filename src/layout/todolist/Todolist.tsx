@@ -2,25 +2,38 @@ import React, {FC, useState}  from 'react'
 import style from './Todolist.module.css'
 import { InputUsed } from '../../components/input-used/InputUsed'
 import { ButtonUsed } from '../../components/button-used/ButtonUsed'
-import { useDispatch, useSelector } from 'react-redux'
 import { TaskType, addTask } from '../../redux/tasks-reducer'
 import { Task } from '../task/Task'
 import { IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { FilterType, changeFilter, deleteTodolist } from '../../redux/todolists-reducer'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 
 type TodoListProps = {
     title: string
     todolistId: string
+    filter: FilterType
 }
 export const Todolist:FC<TodoListProps> = (props) => {
 
     const [titleTask, setTitleTask] = useState('')
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const tasks = useSelector((state: any) => state.tasks[props.todolistId])
-console.log(tasks)
+    const tasks = useAppSelector((state: any) => {
+        switch(props.filter) {
+            case 'active':
+                return state.tasks[props.todolistId].filter((t: TaskType) => t.isDone === false)
+
+            case 'complited':
+                return state.tasks[props.todolistId].filter((t: TaskType) => t.isDone === true)
+
+            default:
+                return state.tasks[props.todolistId]
+        }
+        
+    })
+
     const onClickHandlerAddButton = () => {
         dispatch(addTask(titleTask, props.todolistId))
         setTitleTask('')
@@ -57,9 +70,12 @@ console.log(tasks)
                                                   isDone={t.isDone}
                                                   todolistId={props.todolistId} /></div>)}
             </div>
-            <ButtonUsed textButton="All" onClick={() => onClickHandlerButtonGroup('all')} />
-            <ButtonUsed textButton="Active" onClick={() => onClickHandlerButtonGroup('active')} />
-            <ButtonUsed textButton="Complited" onClick={() => onClickHandlerButtonGroup('complited')} />
+            <div className={style.buttonGroup}>
+                <ButtonUsed textButton="All" onClick={() => onClickHandlerButtonGroup('all')} />
+                <ButtonUsed textButton="Active" onClick={() => onClickHandlerButtonGroup('active')} />
+                <ButtonUsed textButton="Complited" onClick={() => onClickHandlerButtonGroup('complited')} />
+            </div>
+            
         </div>
     )
 }
