@@ -1,5 +1,5 @@
 import { v1 } from "uuid"
-import { AddTodolistActionType } from "./todolists-reducer"
+import { AddTodolistActionType, SetTodolistActionType } from "./todolists-reducer"
 
 export type TaskType = {
     id: string
@@ -25,7 +25,8 @@ type ChangeStatusTaskActionPayloadType = {
     isDone: boolean 
 }
 
-type ActionTaskType = AddTodolistActionType | AddTaskActionType | DeleteTaskActionType | ChangeStatusTaskActionType 
+type ActionTaskType = AddTodolistActionType | AddTaskActionType | DeleteTaskActionType | ChangeStatusTaskActionType |
+SetTodolistActionType
 
 const initialState:TasksStateType = {}
 
@@ -50,7 +51,6 @@ export const tasksReducer = (state: TasksStateType=initialState, action: ActionT
             }
         case "CHANGE-STATUS-TASK":
             return {
-
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(t => {
                     if(t.id === action.payload.taskId) {
@@ -62,6 +62,13 @@ export const tasksReducer = (state: TasksStateType=initialState, action: ActionT
                     return t
                 })
             }
+        case "SET-TODOLIST":
+            const copyState = {...state}
+            action.payload.todolists.forEach(tl => {
+                copyState[tl.id] = []
+            })
+            return copyState
+
         default:
             return state    
     }
