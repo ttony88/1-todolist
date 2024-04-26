@@ -7,11 +7,11 @@ export type TodolistType = {
     title: string
 }
 
-export type ResponseType<D = {}> = {
+export type ResponseType<T = {}> = {
     resultCode: number
     messages: Array<string>
     fieldsErrors: Array<string>
-    data: D
+    data: T
 }
 
 const instance = axios.create({
