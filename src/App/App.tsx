@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useState }  from 'react'
 import style from './App.module.css'
 import { ButtonUsed } from '../components/button-used/ButtonUsed'
-import { FilterType, addTodolist, getTodolist } from '../redux/todolists-reducer'
-import { v1 } from 'uuid'
+import { FilterType, createTodolist, getTodolist } from '../redux/todolists-reducer'
 import { Todolist } from '../layout/todolist/Todolist'
 import { InputUsed } from '../components/input-used/InputUsed'
 import { useAppDispatch, useAppSelector } from '../redux/store'
@@ -21,7 +20,7 @@ export const App:FC = () => {
     const onChangeHandler = (value: string) => {setTitleTask(value)}
 
     const onClickHandler = () => {
-        dispatch(addTodolist(titleTask,v1()))
+        dispatch(createTodolist(titleTask))
         setTitleTask('')
     }
 
