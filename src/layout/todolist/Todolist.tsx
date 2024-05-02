@@ -1,4 +1,4 @@
-import React, {FC, useState}  from 'react'
+import React, {ChangeEvent, FC, useState}  from 'react'
 import style from './Todolist.module.css'
 import { InputUsed } from '../../components/input-used/InputUsed'
 import { ButtonUsed } from '../../components/button-used/ButtonUsed'
@@ -17,6 +17,10 @@ type TodoListProps = {
 export const Todolist:FC<TodoListProps> = (props) => {
 
     const [titleTask, setTitleTask] = useState('')
+
+    const [titleTodolist, setTitleTodolist] = useState('')
+
+    const [inputMode, setInputMode] = useState(false)
 
     const dispatch = useAppDispatch()
 
@@ -51,10 +55,24 @@ export const Todolist:FC<TodoListProps> = (props) => {
         dispatch(changeFilter(filter, props.todolistId))
     }
 
+    const onDoubleClickHendlerTitleTodolist = () => {
+        setInputMode(true)
+    } 
+
+    const onChangeTodolistTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitleTodolist(e.currentTarget.value)
+    }
+
+    const onClickInputTodolistTask = () => {
+        setInputMode(false)
+    }
+
     return(
         <div className={style.todolist}>
             <div className={style.title}>
-                {props.title}
+                {inputMode ? <input type="text" autoFocus value={titleTodolist} 
+                                    onChange={onChangeTodolistTitle} onClick={onClickInputTodolistTask} /> 
+                           : <span onDoubleClick={onDoubleClickHendlerTitleTodolist}>{props.title}</span>}
                 <IconButton onClick={onClickHandlerDeleteButton}>
                     <Delete />
                 </IconButton>
