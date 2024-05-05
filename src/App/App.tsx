@@ -15,13 +15,13 @@ export const App:FC = () => {
         dispatch(getTodolists())
     }, [])
 
-    const[titleTask, setTitleTask] = useState('')
+    const[titleTodolist, setTitleTodolist] = useState('')
 
-    const onChangeHandler = (value: string) => {setTitleTask(value)}
+    const onChangeHandler = (value: string) => {setTitleTodolist(value)}
 
     const onClickHandler = () => {
-        dispatch(createTodolist(titleTask))
-        setTitleTask('')
+        dispatch(createTodolist(titleTodolist))
+        setTitleTodolist('')
     }
 
     const todolists = useAppSelector((state: any) => state.todolists)
@@ -29,12 +29,11 @@ export const App:FC = () => {
     return(
         <div className={style.app}>
             <div className={style.inputBox}>
-                <InputUsed value={titleTask} onChange={onChangeHandler} />
+                <InputUsed value={titleTodolist} onChange={onChangeHandler} />
                 <ButtonUsed textButton="+" onClick={onClickHandler} />
             </div>
             <div className={style.todolists}>
-                {todolists.map((t: TodolistType & {filter: FilterType}) => <div key={t.id}><Todolist  
-                                                              title={t.title}
+                {todolists.map((t: TodolistType & {filter: FilterType}) => <div key={t.id}><Todolist 
                                                               todolistId={t.id}
                                                               filter={t.filter}/>
                                                     </div>)}

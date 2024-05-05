@@ -6,19 +6,20 @@ import { TaskType, addTask } from '../../redux/tasks-reducer'
 import { Task } from '../task/Task'
 import { IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
-import { FilterType, changeFilter, deleteTodolist } from '../../redux/todolists-reducer'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { FilterType, changeFilter, deleteTodolist, updateTodolist } from '../../redux/todolists-reducer'
+import { AppRootStateType, useAppDispatch, useAppSelector } from '../../redux/store'
 
 type TodoListProps = {
-    title: string
     todolistId: string
     filter: FilterType
 }
 export const Todolist:FC<TodoListProps> = (props) => {
 
+    const titleTodolist = useAppSelector((state: AppRootStateType) => state.todolists.filter(tl => tl.id === props.todolistId)[0].title)
+
     const [titleTask, setTitleTask] = useState('')
 
-    const [titleTodolist, setTitleTodolist] = useState('')
+    const [inputValueTitleTodolist, setInputValueTitleTodolist] = useState(titleTodolist)
 
     const [inputMode, setInputMode] = useState(false)
 
@@ -60,19 +61,20 @@ export const Todolist:FC<TodoListProps> = (props) => {
     } 
 
     const onChangeTodolistTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitleTodolist(e.currentTarget.value)
+        setInputValueTitleTodolist(e.currentTarget.value)
     }
 
     const onClickInputTodolistTask = () => {
+        dispatch(updateTodolist(props.todolistId, inputValueTitleTodolist))
         setInputMode(false)
     }
 
     return(
         <div className={style.todolist}>
             <div className={style.title}>
-                {inputMode ? <input type="text" autoFocus value={titleTodolist} 
+                {inputMode ? <input type="text" autoFocus value={inputValueTitleTodolist} 
                                     onChange={onChangeTodolistTitle} onClick={onClickInputTodolistTask} /> 
-                           : <span onDoubleClick={onDoubleClickHendlerTitleTodolist}>{props.title}</span>}
+                           : <span onDoubleClick={onDoubleClickHendlerTitleTodolist}>{titleTodolist}</span>}
                 <IconButton onClick={onClickHandlerDeleteButton}>
                     <Delete />
                 </IconButton>
