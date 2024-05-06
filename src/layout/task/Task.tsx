@@ -14,6 +14,7 @@ type TaskProps = {
     todolistId: string
 }
 export const Task:FC<TaskProps> = (props) => {
+    
     const dispatch = useAppDispatch()
 
     const onChangeHandlerCheckBox = (e: ChangeEvent<HTMLInputElement>) => {

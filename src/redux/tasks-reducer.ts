@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import { v1 } from "uuid"
 import { AddTodolistActionType, SetTodolistActionType } from "./todolists-reducer"
 
@@ -83,3 +84,9 @@ export const deleteTask = (todolistId: string, taskId: string) => ({type: "DELET
 export const changeStatusTask = (todolistId: string, taskId: string, isDone: boolean) => {
     return {type: "CHANGE-STATUS-TASK", payload: {todolistId, taskId, isDone}} as const
 } 
+
+export const getTasks = () => {
+    (dispatch: Dispatch<ActionTaskType>) => {
+        
+    }
+}
