@@ -16,7 +16,10 @@ export type ResponseTodolistType<T = {}> = {
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1',
-    withCredentials: true
+    withCredentials: true,
+    headers: {
+        'API-KEY': '6742bfbb-b768-4fb0-8adf-26e2c9f9bf7b'
+    }
 })
 
 export const todolistAPI = {
