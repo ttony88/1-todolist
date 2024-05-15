@@ -1,8 +1,8 @@
-import React, {ChangeEvent, KeyboardEvent, FC, useState}  from 'react'
+import React, {ChangeEvent, KeyboardEvent, FC, useState, useEffect}  from 'react'
 import style from './Todolist.module.css'
 import { InputUsed } from '../../components/input-used/InputUsed'
 import { ButtonUsed } from '../../components/button-used/ButtonUsed'
-import { TaskType, addTask } from '../../redux/tasks-reducer'
+import { TaskType, createTasks, getTasks } from '../../redux/tasks-reducer'
 import { Task } from '../task/Task'
 import { IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
@@ -15,6 +15,12 @@ type TodoListProps = {
 }
 export const Todolist:FC<TodoListProps> = (props) => {
 
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(getTasks(props.todolistId))
+    }, [])
+
     const titleTodolist = useAppSelector((state: AppRootStateType) => state.todolists.filter(tl => 
                                                                       tl.id === props.todolistId)[0].title)
 
@@ -24,15 +30,13 @@ export const Todolist:FC<TodoListProps> = (props) => {
 
     const [inputMode, setInputMode] = useState(false)
 
-    const dispatch = useAppDispatch()
-
     const tasks = useAppSelector((state: any) => {
         switch(props.filter) {
             case 'active':
-                return state.tasks[props.todolistId].filter((t: TaskType) => t.isDone === false)
+                return state.tasks[props.todolistId].filter((t: TaskType) => t.completed === false)
 
             case 'complited':
-                return state.tasks[props.todolistId].filter((t: TaskType) => t.isDone === true)
+                return state.tasks[props.todolistId].filter((t: TaskType) => t.completed === true)
 
             default:
                 return state.tasks[props.todolistId]
@@ -41,7 +45,7 @@ export const Todolist:FC<TodoListProps> = (props) => {
     })
 
     const onClickHandlerAddButton = () => {
-        dispatch(addTask(titleTask, props.todolistId))
+        dispatch(createTasks(props.todolistId, titleTask))
         setTitleTask('')
     }
 
@@ -88,10 +92,9 @@ export const Todolist:FC<TodoListProps> = (props) => {
                 <ButtonUsed textButton='+' onClick={onClickHandlerAddButton} />
             </div>
             <div className={style.tasks}>
-                {tasks.map((t: TaskType) => <div key={t.id}><Task 
+                {tasks?.map((t: TaskType) => <div key={t.id}><Task 
                                                   taskId={t.id} 
                                                   title={t.title} 
-                                                  isDone={t.isDone}
                                                   todolistId={props.todolistId} /></div>)}
             </div>
             <div className={style.buttonGroup}>
