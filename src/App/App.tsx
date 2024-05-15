@@ -6,6 +6,7 @@ import { Todolist } from '../layout/todolist/Todolist'
 import { InputUsed } from '../components/input-used/InputUsed'
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import { TodolistType } from '../API/todolist-api'
+import { getTasks } from '../redux/tasks-reducer'
 
 export const App:FC = () => {
 
