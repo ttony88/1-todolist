@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../redux/store'
 type TaskProps = {
     taskId: string
     title: string
+    status: number
     todolistId: string
 }
 export const Task:FC<TaskProps> = (props) => {
@@ -42,7 +43,7 @@ export const Task:FC<TaskProps> = (props) => {
 
     return(
         <div className={style.task}> 
-            <Checkbox checked={true}
+            <Checkbox checked={props.status === 2}
                       defaultChecked={false}
                       onChange={onChangeHandlerCheckBox}
             />
