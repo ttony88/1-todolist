@@ -4,15 +4,17 @@ import React, {FC} from "react"
 type ButtonUsedPropsType = {
     textButton: string
     isDisabled?: boolean
-    onClick: () => void
+    type?: "button" | "submit" | "reset" | undefined
+    onClick?: () => void
 }
 
-export const ButtonUsed : FC<ButtonUsedPropsType> = ({textButton, isDisabled, onClick}) => {
+export const ButtonUsed : FC<ButtonUsedPropsType> = ({isDisabled, textButton, onClick, type}) => {
 
     return(
         <Button variant="contained" 
-                disabled={isDisabled} 
-                onClick={onClick}>
+                disabled={isDisabled}
+                type={type ? type=type : 'button'}
+                onClick={onClick ? () => onClick() : () => {}}>
             {textButton}
         </Button>
     )
