@@ -7,6 +7,7 @@ import { InputUsed } from '../components/input-used/InputUsed'
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import { TodolistType } from '../API/todolist-api'
 import { getTasks } from '../redux/tasks-reducer'
+import { useFormik } from 'formik'
 
 export const App:FC = () => {
 
@@ -16,23 +17,26 @@ export const App:FC = () => {
         dispatch(getTodolists())
     }, [])
 
-    const[titleTodolist, setTitleTodolist] = useState('')
-
-    const onChangeHandler = (value: string) => {setTitleTodolist(value)}
-
-    const onClickHandler = () => {
-        dispatch(createTodolist(titleTodolist))
-        setTitleTodolist('')
-    }
+    const formik = useFormik({
+        initialValues: {
+            titleTodolist: '' 
+        },
+        onSubmit: (values) => {
+            dispatch(createTodolist(values.titleTodolist))
+            formik.resetForm()
+        }
+    })
 
     const todolists = useAppSelector((state: any) => state.todolists)
 
     return(
         <div className={style.app}>
-            <div className={style.inputBox}>
-                <InputUsed value={titleTodolist} onChange={onChangeHandler} />
-                <ButtonUsed textButton="+" onClick={onClickHandler} />
-            </div>
+            <form className={style.inputBox}
+                  onSubmit={formik.handleSubmit}>
+                <InputUsed type='text'
+                           {...formik.getFieldProps('titleTodolist')} />
+                <ButtonUsed textButton="+" />
+            </form>
             <div className={style.todolists}>
                 {todolists.map((t: TodolistType & {filter: FilterType}) => <div key={t.id}><Todolist 
                                                               todolistId={t.id}
