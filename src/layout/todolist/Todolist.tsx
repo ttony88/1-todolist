@@ -8,6 +8,7 @@ import { IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { FilterType, changeFilter, deleteTodolist, updateTodolist } from '../../redux/todolists-reducer'
 import { AppRootStateType, useAppDispatch, useAppSelector } from '../../redux/store'
+import { useFormik } from 'formik'
 
 type TodoListProps = {
     todolistId: string
@@ -23,8 +24,6 @@ export const Todolist:FC<TodoListProps> = (props) => {
 
     const titleTodolist = useAppSelector((state: AppRootStateType) => state.todolists.filter(tl => 
                                                                       tl.id === props.todolistId)[0].title)
-
-    const [titleTask, setTitleTask] = useState('')
 
     const [inputValueTitleTodolist, setInputValueTitleTodolist] = useState(titleTodolist)
 
@@ -44,17 +43,8 @@ export const Todolist:FC<TodoListProps> = (props) => {
         
     })
 
-    const onClickHandlerAddButton = () => {
-        dispatch(createTasks(props.todolistId, titleTask))
-        setTitleTask('')
-    }
-
     const onClickHandlerDeleteButton = () => {
         dispatch(deleteTodolist(props.todolistId))
-    }
-
-    const onChangeHandlerInput = (value: string) => {
-        setTitleTask(value)
     }
 
     const onClickHandlerButtonGroup = (filter: FilterType) => {
@@ -77,8 +67,19 @@ export const Todolist:FC<TodoListProps> = (props) => {
         
     }
 
+    const formik = useFormik({
+        initialValues: {
+            titleTask: '' 
+        },
+        onSubmit: (values) => {
+            dispatch(createTasks(props.todolistId, values.titleTask))
+            formik.resetForm()
+        }
+    })
+
     return(
-        <div className={style.todolist}>
+        <form className={style.todolist}
+              onSubmit={formik.handleSubmit}>
             <div className={style.title}>
                 {inputMode ? <input type="text" autoFocus value={inputValueTitleTodolist} 
                                     onChange={onChangeTodolistTitle} onKeyDown={onKeyDownHandler} /> 
@@ -88,13 +89,15 @@ export const Todolist:FC<TodoListProps> = (props) => {
                 </IconButton>
             </div>
             <div className={style.inputBlock}>
-                <InputUsed value={titleTask} onChange={onChangeHandlerInput} />
-                <ButtonUsed textButton='+' onClick={onClickHandlerAddButton} />
+                <InputUsed type='text' 
+                           {...formik.getFieldProps('titleTask')} />
+                <ButtonUsed textButton='+' type='submit' />
             </div>
             <div className={style.tasks}>
                 {tasks?.map((t: TaskType) => <div key={t.id}><Task 
                                                   taskId={t.id} 
                                                   title={t.title} 
+                                                  status={t.status}
                                                   todolistId={props.todolistId} /></div>)}
             </div>
             <div className={style.buttonGroup}>
@@ -103,6 +106,6 @@ export const Todolist:FC<TodoListProps> = (props) => {
                 <ButtonUsed textButton="Complited" onClick={() => onClickHandlerButtonGroup('complited')} />
             </div>
             
-        </div>
+        </form>
     )
 }
