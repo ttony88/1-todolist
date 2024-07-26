@@ -7,48 +7,48 @@ import { Task } from '../task/Task'
 import { IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { FilterType, changeFilter, deleteTodolist, updateTodolist } from '../../redux/todolists-reducer'
-import { AppRootStateType, useAppDispatch, useAppSelector } from '../../redux/store'
+import { AppRootStateType, useAppDispatch } from '../../redux/store'
 import { useFormik } from 'formik'
+import { useSelector } from 'react-redux'
 
 type TodoListProps = {
     todolistId: string
     filter: FilterType
 }
-export const Todolist:FC<TodoListProps> = (props) => {
+export const Todolist = ({todolistId, filter}:TodoListProps) => {
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(getTasks(props.todolistId))
+        dispatch(getTasks(todolistId))
     }, [])
 
-    const titleTodolist = useAppSelector((state: AppRootStateType) => state.todolists.filter(tl => 
-                                                                      tl.id === props.todolistId)[0].title)
+    const titleTodolist = useSelector((state: AppRootStateType) => state.todolists.filter(tl => tl.id === todolistId)[0].title)
 
     const [inputValueTitleTodolist, setInputValueTitleTodolist] = useState(titleTodolist)
 
     const [inputMode, setInputMode] = useState(false)
 
-    const tasks = useAppSelector((state: any) => {
-        switch(props.filter) {
+    const tasks = useSelector((state: AppRootStateType) => {
+        switch(filter) {
             case 'active':
-                return state.tasks[props.todolistId].filter((t: TaskType) => t.completed === false)
+                return state.tasks[todolistId].filter((t: TaskType) => t.completed === false)
 
             case 'complited':
-                return state.tasks[props.todolistId].filter((t: TaskType) => t.completed === true)
+                return state.tasks[todolistId].filter((t: TaskType) => t.completed === true)
 
             default:
-                return state.tasks[props.todolistId]
+                return state.tasks[todolistId]
         }
         
     })
 
     const onClickHandlerDeleteButton = () => {
-        dispatch(deleteTodolist(props.todolistId))
+        dispatch(deleteTodolist(todolistId))
     }
 
     const onClickHandlerButtonGroup = (filter: FilterType) => {
-        dispatch(changeFilter(filter, props.todolistId))
+        dispatch(changeFilter(filter, todolistId))
     }
 
     const onDoubleClickHendlerTitleTodolist = () => {
@@ -61,7 +61,7 @@ export const Todolist:FC<TodoListProps> = (props) => {
 
     const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if(e.key === 'Enter') {
-            dispatch(updateTodolist(props.todolistId, inputValueTitleTodolist))
+            dispatch(updateTodolist(todolistId, inputValueTitleTodolist))
             setInputMode(false)
         }
         
@@ -72,7 +72,9 @@ export const Todolist:FC<TodoListProps> = (props) => {
             titleTask: '' 
         },
         onSubmit: (values) => {
-            dispatch(createTasks(props.todolistId, values.titleTask))
+            const {titleTask} = values
+            console.log(values)
+            dispatch(createTasks(todolistId, titleTask))
             formik.resetForm()
         }
     })
@@ -98,7 +100,7 @@ export const Todolist:FC<TodoListProps> = (props) => {
                                                   taskId={t.id} 
                                                   title={t.title} 
                                                   status={t.status}
-                                                  todolistId={props.todolistId} /></div>)}
+                                                  todolistId={todolistId} /></div>)}
             </div>
             <div className={style.buttonGroup}>
                 <ButtonUsed textButton="All" onClick={() => onClickHandlerButtonGroup('all')} />

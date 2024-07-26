@@ -21,7 +21,8 @@ export const Task:FC<TaskProps> = (props) => {
     const dispatch = useAppDispatch()
 
     const onChangeHandlerCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(updateTask(props.todolistId, props.taskId, {status: 2}))
+        const status = e.currentTarget.checked ? 2 : 1
+        dispatch(updateTask(props.todolistId, props.taskId, {status}))
     }
 
     const onClickHandlerButtonDeleteTask = () => {
@@ -44,7 +45,6 @@ export const Task:FC<TaskProps> = (props) => {
     return(
         <div className={style.task}> 
             <Checkbox checked={props.status === 2}
-                      defaultChecked={false}
                       onChange={onChangeHandlerCheckBox}
             />
             <div className={style.title} onDoubleClick={onDoubleClickTitleHandler}>

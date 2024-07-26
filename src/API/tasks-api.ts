@@ -52,3 +52,7 @@ export type UpdateTaskModelType = {
     startDate: string
     deadline: string
 }
+export type AddTaskArgType = {
+    title: string;
+    todolistId: string;
+}
