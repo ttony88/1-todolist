@@ -11,9 +11,14 @@ const rootReducer = combineReducers({
     todolists: todolistsReducer
 })
 //@ts-ignore
-export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
+//export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
+
+export const store = configureStore({
+    reducer: rootReducer,
+  })
  
-export type AppRootStateType = ReturnType<typeof rootReducer>
+//export type AppRootStateType = ReturnType<typeof rootReducer>
+export type AppRootStateType = ReturnType<typeof store.getState>
  
 export type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
  
@@ -22,25 +27,6 @@ export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelecto
 
 export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AnyAction>
 
-// const rootReducer = combineReducers({
-//     auth: authReducer,
-//     tasks: tasksReducer,
-//     todolists: todolistsReducer//
-// })
 
-// export const store = configureStore({
-//     reducer: rootReducer
-// })
-
-// export type AppRootStateType = ReturnType<typeof rootReducer>
-
-
-// export type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
-
-// export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AnyAction>
-
-// export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AnyAction>;
-
-// export const useAppDispatch = () => useDispatch<AppThunkDispatch>()
 
 
