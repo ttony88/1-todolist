@@ -7,7 +7,7 @@ import { Task } from '../task/Task'
 import { IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { FilterType, changeFilter, deleteTodolist, updateTodolist } from '../../redux/todolists-reducer'
-import { AppRootStateType, useAppDispatch } from '../../redux/store'
+import { AppRootStateType, useAppDispatch, useAppSelector } from '../../redux/store'
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
 
@@ -29,13 +29,13 @@ export const Todolist = ({todolistId, filter}:TodoListProps) => {
 
     const [inputMode, setInputMode] = useState(false)
 
-    const tasks = useSelector((state: AppRootStateType) => {
+    const tasks = useAppSelector((state) => {
         switch(filter) {
             case 'active':
-                return state.tasks[todolistId].filter((t: TaskType) => t.completed === false)
+                return state.tasks[todolistId].filter((t: TaskType) => t.status === 0)
 
             case 'complited':
-                return state.tasks[todolistId].filter((t: TaskType) => t.completed === true)
+                return state.tasks[todolistId].filter((t: TaskType) => t.status === 2)
 
             default:
                 return state.tasks[todolistId]
@@ -73,7 +73,6 @@ export const Todolist = ({todolistId, filter}:TodoListProps) => {
         },
         onSubmit: (values) => {
             const {titleTask} = values
-            console.log(values)
             dispatch(createTasks(todolistId, titleTask))
             formik.resetForm()
         }

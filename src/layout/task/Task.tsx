@@ -21,7 +21,7 @@ export const Task:FC<TaskProps> = (props) => {
     const dispatch = useAppDispatch()
 
     const onChangeHandlerCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
-        const status = e.currentTarget.checked ? 2 : 1
+        const status = e.currentTarget.checked ? 2 : 0
         dispatch(updateTask(props.todolistId, props.taskId, {status}))
     }
 
