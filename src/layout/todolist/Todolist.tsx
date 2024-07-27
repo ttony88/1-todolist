@@ -9,7 +9,6 @@ import { Delete } from '@mui/icons-material'
 import { FilterType, changeFilter, deleteTodolist, updateTodolist } from '../../redux/todolists-reducer'
 import { AppRootStateType, useAppDispatch, useAppSelector } from '../../redux/store'
 import { useFormik } from 'formik'
-import { useSelector } from 'react-redux'
 
 type TodoListProps = {
     todolistId: string
@@ -23,7 +22,7 @@ export const Todolist = ({todolistId, filter}:TodoListProps) => {
         dispatch(getTasks(todolistId))
     }, [])
 
-    const titleTodolist = useSelector((state: AppRootStateType) => state.todolists.filter(tl => tl.id === todolistId)[0].title)
+    const titleTodolist = useAppSelector((state: AppRootStateType) => state.todolists.filter(tl => tl.id === todolistId)[0].title)
 
     const [inputValueTitleTodolist, setInputValueTitleTodolist] = useState(titleTodolist)
 
