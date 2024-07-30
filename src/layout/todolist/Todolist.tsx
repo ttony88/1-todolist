@@ -2,7 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, FC, useState, useEffect}  from 'react
 import style from './Todolist.module.css'
 import { InputUsed } from '../../components/input-used/InputUsed'
 import { ButtonUsed } from '../../components/button-used/ButtonUsed'
-import { TaskType, createTasks, getTasks } from '../../redux/tasks-reducer'
+import { TaskType, tasksThunks } from '../../redux/tasks-reducer'
 import { Task } from '../task/Task'
 import { IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
@@ -19,10 +19,10 @@ export const Todolist = ({todolistId, filter}:TodoListProps) => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(getTasks(todolistId))
+        dispatch(tasksThunks.getTasks(todolistId))
     }, [])
 
-    const titleTodolist = useAppSelector((state: AppRootStateType) => state.todolists.filter(tl => tl.id === todolistId)[0].title)
+    const titleTodolist = useAppSelector((state) => state.todolists.filter(tl => tl.id === todolistId)[0].title)
 
     const [inputValueTitleTodolist, setInputValueTitleTodolist] = useState(titleTodolist)
 
@@ -47,7 +47,7 @@ export const Todolist = ({todolistId, filter}:TodoListProps) => {
     }
 
     const onClickHandlerButtonGroup = (filter: FilterType) => {
-        dispatch(changeFilter(filter, todolistId))
+        dispatch(changeFilter({filter, todolistId}))
     }
 
     const onDoubleClickHendlerTitleTodolist = () => {
@@ -72,7 +72,7 @@ export const Todolist = ({todolistId, filter}:TodoListProps) => {
         },
         onSubmit: (values) => {
             const {titleTask} = values
-            dispatch(createTasks(todolistId, titleTask))
+            dispatch(tasksThunks.createTask({todolistId, title: titleTask}))
             formik.resetForm()
         }
     })

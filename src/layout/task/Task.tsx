@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FC, useState}  from 'react'
 import style from './Task.module.css'
-import { deleteTask, updateTask } from '../../redux/tasks-reducer'
+import { tasksThunks, updateTask } from '../../redux/tasks-reducer'
 import Checkbox from '@mui/material/Checkbox/Checkbox'
 import IconButton from '@mui/material/IconButton/IconButton'
 import { Delete, Input } from '@mui/icons-material'
@@ -12,9 +12,9 @@ type TaskProps = {
     status: number
     todolistId: string
 }
-export const Task:FC<TaskProps> = (props) => {
+export const Task:FC<TaskProps> = ({taskId, title, status,todolistId}) => {
 
-    const [titleValue, setTitleValue] = useState(props.title)
+    const [titleValue, setTitleValue] = useState(title)
 
     const [editMode, setEditMode] = useState(false)
     
@@ -22,15 +22,15 @@ export const Task:FC<TaskProps> = (props) => {
 
     const onChangeHandlerCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
         const status = e.currentTarget.checked ? 2 : 0
-        dispatch(updateTask(props.todolistId, props.taskId, {status}))
+        dispatch(updateTask(todolistId, taskId, {status}))
     }
 
     const onClickHandlerButtonDeleteTask = () => {
-        dispatch(deleteTask(props.todolistId, props.taskId))
+        dispatch(tasksThunks.deleteTask({todolistId, taskId}))
     }
 
     const onClickTitleInputHendler = () => {
-        dispatch(updateTask(props.todolistId, props.taskId, {title: titleValue}))
+        dispatch(updateTask(todolistId, taskId, {title: titleValue}))
         setEditMode(false)
     }
 
@@ -44,7 +44,7 @@ export const Task:FC<TaskProps> = (props) => {
 
     return(
         <div className={style.task}> 
-            <Checkbox checked={props.status === 2}
+            <Checkbox checked={status === 2}
                       onChange={onChangeHandlerCheckBox}
             />
             <div className={style.title} onDoubleClick={onDoubleClickTitleHandler}>
@@ -52,7 +52,7 @@ export const Task:FC<TaskProps> = (props) => {
                                    value={titleValue} 
                                    onChange={onChangeInputTitleHandler}
                                    onClick={onClickTitleInputHendler}
-                                   autoFocus/> : props.title}
+                                   autoFocus/> : title}
             </div>
             <IconButton onClick={onClickHandlerButtonDeleteTask}>
                 <Delete />
